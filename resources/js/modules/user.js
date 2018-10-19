@@ -169,12 +169,15 @@ export const user = {
         setUser(state, user) {
             state.user = user;
         },
+
         setUserLoadStatus(state, status) {
             state.userLoadStatus = status;
         },
+
         setAUser(state, user) {
             state.aUser = user;
         },
+        
         setAUserLoadStatus(state, status) {
             state.aUserLoadStatus = status
         },
