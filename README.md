@@ -1,5 +1,5 @@
-# laravel-vuejs-spa-boilerplate
-This is a boilerplate for single-page application built with the following:  
+# ObsAndGyn
+Hospital Management System For Pregnancies built with:  
 
 - [x] Laravel
 - [x] VueJs
