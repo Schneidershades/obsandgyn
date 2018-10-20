@@ -47,7 +47,7 @@ export const procedureType = {
                 data.id
             ).then(function(response) {
                 commit('setProcedureTypeLoadStatus', 2);
-                commit('setProcedure', response.data.data);
+                commit('setProcedureType', response.data.data);
             }).catch(function() {
                 commit('setProcedureTypeLoadStatus', 3);
                 commit('setProcedureType', {});

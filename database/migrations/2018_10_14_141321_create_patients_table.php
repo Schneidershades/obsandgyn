@@ -18,7 +18,7 @@ class CreatePatientsTable extends Migration
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('religion')->nullable();
-            $table->timestamp('birth_date')->nullable();
+            $table->date('birth_date')->nullable();
             $table->string('tribe')->nullable();
             $table->string('husband_occupation')->nullable();
             $table->timestamps();

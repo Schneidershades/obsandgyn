@@ -20,7 +20,7 @@ class CreateInventoriesTable extends Migration
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('unit_id');
             $table->unsignedInteger('price');
-            $table->timestamp('expiration');
+            $table->date('expiration');
             $table->timestamps();
 
             $table->foreign('inventory_type_id')->references('id')->on('inventory_types');
