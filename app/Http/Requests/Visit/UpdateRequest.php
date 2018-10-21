@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,26 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required',
+            'start_date' => 'required',
+            'examiner' => 'required',
+            'visit_type_id' => 'required',
+            'visit_status_id' => 'required'
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'id.required' => 'id is required',
+            'start_date.required' => 'start date is required',
+            'examiner.required' => 'examiner is required',
+            'visit_type_id.required' => 'visit_type_id is required',
+            'visit_status_id.required' => 'visit_status_id is required'
         ];
     }
 }

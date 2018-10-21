@@ -13,7 +13,7 @@ class NewRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,20 @@ class NewRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'visit_id' => 'required',
+            'note' => 'required'
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'visit_id.required' => 'visit_id is required',
+            'note.required' => 'note is required'
         ];
     }
 }

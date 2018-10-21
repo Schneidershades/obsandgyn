@@ -24,7 +24,7 @@ Vue.use( Vuex );
 /*
     Imports all of the modules used in the application to build the data store.
 */
-import { user } from './modules/users.js';
+import { user } from './modules/user.js';
 
 /* 
 Exports our data store.

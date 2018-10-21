@@ -10,8 +10,10 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
+    //require('bootstrap');
 
-    require('bootstrap');
+    require('../../template/argon-dashboard-v1.0.0/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js');
+    require('../../template/argon-dashboard-v1.0.0/assets/js/argon.min.js');
 } catch (e) {}
 
 /**

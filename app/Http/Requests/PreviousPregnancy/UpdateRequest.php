@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,26 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required',
+            'year' => 'required',
+            'duration' => 'required',
+            'antenatal_complications' => 'required',
+            'labour' => 'required'
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'id.required' => 'id is required',
+            'year.required' => 'last period is required',
+            'duration.required' => 'pregnancy status is required',
+            'antenatal_complications.required' => 'antenatal complications is required',
+            'labour.required' => 'labour is required'
         ];
     }
 }

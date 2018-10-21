@@ -128,6 +128,80 @@ export default new VueRouter({
                             }
                         }
                     ]
+                },
+                {
+                    path: 'inventory',
+                    component: Vue.component('Inventory', require('./pages/Inventory.vue')),
+                    children: [
+                        {
+                            path: '',
+                            name: 'Inventories',
+                            component: Vue.component(
+                                'BrowseInventory',
+                                require('./components/inventory/Browse.vue')
+                            )
+                        }
+                    ]
+                },
+                {
+                    path: 'patient',
+                    component: Vue.component('Patient', require('./pages/Patient.vue')),
+                    children: [
+                        {
+                            path: '',
+                            name: 'Patients',
+                            component: Vue.component(
+                                'BrowsePatients',
+                                require('./components/patient/Browse.vue')
+                            )
+                        },
+                        {
+                            path: ':patientId',
+                            name: 'View Patient',
+                            component: Vue.component(
+                                'ViewPatient', 
+                                require('./components/patient/View.vue')
+                            )
+                        }
+                    ]
+                },
+                {
+                    path: 'appointment',
+                    component: Vue.component('Appointment', require('./pages/Appointment.vue')),
+                    children: [
+                        {
+                            path: '',
+                            name: 'Appointments',
+                            component: Vue.component(
+                                'BrowseAppointments',
+                                require('./components/appointment/Browse.vue')
+                            )
+                        }
+                    ]
+                },
+                {
+                    path: 'billing',
+                    component: Vue.component('Billing', require('./pages/Billing.vue')),
+                    children: [
+                        {
+                            path: '',
+                            name: 'Billings',
+                            component: Vue.component(
+                                'BrowseBillings',
+                                require('./components/billing/Browse.vue')
+                            )
+                        }
+                    ]
+                },
+                {
+                    path: 'administration',
+                    name: 'Administration',
+                    component: Vue.component('Administration', require('./pages/Administration.vue'))
+                },
+                {
+                    path: 'getting-started',
+                    name: 'GettingStarted',
+                    component: Vue.component('GettingStarted', require('./pages/GettingStarted.vue'))
                 }
             ]
         }

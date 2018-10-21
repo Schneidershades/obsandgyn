@@ -25,8 +25,10 @@ class NewRequest extends FormRequest
     {
         return [
             'patient_id' => 'required',
-            'last_period_date' => 'required',
-            'pregnancy_status_id' => 'required'
+            'year' => 'required',
+            'duration' => 'required',
+            'antenatal_complications' => 'required',
+            'labour' => 'required'
         ];
     }
     /**
@@ -38,8 +40,10 @@ class NewRequest extends FormRequest
     {
         return [
             'patient_id.required' => 'patient_id is required',
-            'last_period_date.required' => 'last period is required',
-            'pregnancy_status_id.required' => 'pregnancy status is required'
+            'year.required' => 'last period is required',
+            'duration.required' => 'pregnancy status is required',
+            'antenatal_complications.required' => 'antenatal complications is required',
+            'labour.required' => 'labour is required'
         ];
     }
 }

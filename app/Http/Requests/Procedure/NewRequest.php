@@ -13,7 +13,7 @@ class NewRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,28 @@ class NewRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'visit_id' => 'required',
+            'procedure_type_id' => 'required',
+            'start_date' => 'required',
+            'physician' => 'required',
+            'anesthesiologist' => 'required',
+            'anesthesiology_type_id' => 'required'
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'visit_id.required' => 'visit_id is required',
+            'procedure_type_id.required' => 'procedure is required',
+            'start_date.required' => 'start date is required',
+            'physician.required' => 'antenatal complications is required',
+            'anesthesiologist.required' => 'anesthesiologist is required',
+            'anesthesiology_type_id.required' => 'anethesiology type is required'
         ];
     }
 }

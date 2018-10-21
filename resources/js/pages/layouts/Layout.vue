@@ -4,7 +4,7 @@
 <template>
     <div id="app-layout" class="wrapper">
         <side-bar></side-bar>
-        <div class="main-panel">
+        <div class="main-content">
             <navigation></navigation>
             <router-view></router-view>
         </div>
