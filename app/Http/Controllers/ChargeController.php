@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Charge;
+use App\Visit;
+use App\Http\Requests\Charge\NewRequest;
+use App\Http\Requests\Charge\UpdateRequest;
+use App\Http\Requests\Charge\DelRequest;
+use App\Http\Resources\ChargeResource;
 use Illuminate\Http\Request;
 
 class ChargeController extends Controller
@@ -12,9 +17,11 @@ class ChargeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($visit_id)
     {
-        //
+        $visit = Visit::findOrFail($visit_id);
+
+        return ChargeResource::collection($visit->charges);
     }
 
     /**
@@ -33,9 +40,20 @@ class ChargeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $charge = new Charge();
+
+        $charge->visit_id = $request->input('visit_id');
+        $charge->item = $request->input('item');
+        $charge->quantity = $request->input('quantity');
+
+        if($charge->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Charge added successfully'
+            ]);
+        }
     }
 
     /**
@@ -67,9 +85,19 @@ class ChargeController extends Controller
      * @param  \App\Charge  $charge
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Charge $charge)
+    public function update(UpdateRequest $request)
     {
-        //
+        $charge = Charge::findOrFail($request->input('id'));
+
+        $charge->item = $request->input('item');
+        $charge->quantity = $request->input('quantity');
+
+        if($charge->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'charge has been updated'
+            ]);
+        }
     }
 
     /**
@@ -78,8 +106,15 @@ class ChargeController extends Controller
      * @param  \App\Charge  $charge
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Charge $charge)
+    public function destroy(DelRequest $request)
     {
-        //
+        $charge = Charge::findOrFail($request->input('id'));
+        
+        if($charge->delete()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'charge has been deleted'
+            ]);
+        }
     }
 }

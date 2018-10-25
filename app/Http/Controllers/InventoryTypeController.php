@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\InventoryType;
+use App\Http\Requests\InventoryType\NewRequest;
+use App\Http\Requests\InventoryType\UpdateRequest;
+use App\Http\Requests\InventoryType\DelRequest;
+use App\Http\Resources\InventoryTypeResource;
 use Illuminate\Http\Request;
 
 class InventoryTypeController extends Controller
@@ -14,7 +18,9 @@ class InventoryTypeController extends Controller
      */
     public function index()
     {
-        //
+        $inventoryTypes = InventoryType::paginate();
+
+        return InventoryTypeResource::collection($inventoryTypes);
     }
 
     /**

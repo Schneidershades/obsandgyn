@@ -10,7 +10,7 @@ export default {
      */
     getPregnancies: function(patient_id, url = null) {
         url = url || CONFIG.API_URL + "/patient/" + patient_id + "/pregnancies";
-        return axios.get(url);
+        return axios.get(url); 
     },
 
     /**

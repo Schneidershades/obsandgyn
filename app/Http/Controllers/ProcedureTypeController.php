@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\ProcedureType;
+use App\Http\Requests\ProcedureType\NewRequest;
+use App\Http\Requests\ProcedureType\UpdateRequest;
+use App\Http\Requests\ProcedureType\DelRequest;
+use App\Http\Resources\ProcedureTypeResource;
 use Illuminate\Http\Request;
 
 class ProcedureTypeController extends Controller
@@ -14,7 +18,9 @@ class ProcedureTypeController extends Controller
      */
     public function index()
     {
-        //
+        $procedureTypes = ProcedureType::paginate();
+
+        return ProcedureTypeResource::collection($procedureTypes);
     }
 
     /**
@@ -33,9 +39,18 @@ class ProcedureTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $procedureType = new ProcedureType();
+
+        $procedureType->name = $request->input('name');
+
+        if($procedureType->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Procedure Type has been saved'
+            ]);
+        }
     }
 
     /**
@@ -67,9 +82,18 @@ class ProcedureTypeController extends Controller
      * @param  \App\ProcedureType  $procedureType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProcedureType $procedureType)
+    public function update(UpdateRequest $request)
     {
-        //
+        $procedureType = ProcedureType::findOrFail($request->input('id'));
+
+        $procedureType->name = $request->input('name');
+
+        if($procedureType->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Procedure Type has been updated'
+            ]);
+        }
     }
 
     /**
@@ -78,8 +102,15 @@ class ProcedureTypeController extends Controller
      * @param  \App\ProcedureType  $procedureType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProcedureType $procedureType)
+    public function destroy(DelRequest $request)
     {
-        //
+        $procedureType = ProcedureType::findOrFail($request->input('id'));
+        
+        if($procedureType->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Procedure Type has been deleted'
+            ]);
+        }
     }
 }

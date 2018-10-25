@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\AppointmentStatus;
+use App\Http\Requests\AppointmentStatus\NewRequest;
+use App\Http\Requests\AppointmentStatus\UpdateRequest;
+use App\Http\Requests\AppointmentStatus\DelRequest;
+use App\Http\Resources\AppointmentStatusResource;
 use Illuminate\Http\Request;
 
 class AppointmentStatusController extends Controller
@@ -14,7 +18,9 @@ class AppointmentStatusController extends Controller
      */
     public function index()
     {
-        //
+        $appointmentStatuses = AppointmentStatus::paginate();
+
+        return AppointmentStatusResource::collection($appointmentStatuses);
     }
 
     /**
@@ -33,9 +39,9 @@ class AppointmentStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        
     }
 
     /**

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\PreviousPregnancy;
+use App\Http\Requests\PreviousPregnancy\NewRequest;
+use App\Http\Requests\PreviousPregnancy\UpdateRequest;
+use App\Http\Requests\PreviousPregnancy\DelRequest;
+use App\Http\Resources\PreviousPregnancyResource;
 use Illuminate\Http\Request;
 
 class PreviousPregnancyController extends Controller
@@ -12,9 +16,11 @@ class PreviousPregnancyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($patient_id)
     {
-        //
+        $previousPregnancies = PreviousPregnancy::orderBy('year', 'asc')->paginate();
+
+        return PreviousPregnancyResource::collection($previousPregnancies);
     }
 
     /**
@@ -33,9 +39,25 @@ class PreviousPregnancyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $previousPregnancy = new PreviousPregnancy();
+
+        $previousPregnancy->patient_id = $request->input('patient_id');
+        $previousPregnancy->year = $request->input('year');
+        $previousPregnancy->duration = $request->input('duration');
+        $previousPregnancy->antenatal_complications = $request->input('antenatal_complications');
+        $previousPregnancy->labour = $request->input('labour');
+        $previousPregnancy->age_if_alive = $request->input('age_if_alive');
+        $previousPregnancy->age_if_dead = $request->input('age_if_dead');
+        $previousPregnancy->cause_of_death = $request->input('cause_of_death');
+
+        if($previousPregnancy->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Previous Pregnancy has been saved'
+            ]);
+        }
     }
 
     /**
@@ -44,9 +66,11 @@ class PreviousPregnancyController extends Controller
      * @param  \App\PreviousPregnancy  $previousPregnancy
      * @return \Illuminate\Http\Response
      */
-    public function show(PreviousPregnancy $previousPregnancy)
+    public function show($id)
     {
-        //
+        $previousPregnancy = PreviousPregnancy::findOrFail($id);
+
+        return new PreviousPregnancyResource($previousPregnancy);
     }
 
     /**
@@ -67,9 +91,24 @@ class PreviousPregnancyController extends Controller
      * @param  \App\PreviousPregnancy  $previousPregnancy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PreviousPregnancy $previousPregnancy)
+    public function update(UpdateRequest $request)
     {
-        //
+        $previousPregnancy = PreviousPregnancy::findOrFail($request->input('id'));
+
+        $previousPregnancy->year = $request->input('year');
+        $previousPregnancy->duration = $request->input('duration');
+        $previousPregnancy->antenatal_complications = $request->input('antenatal_complications');
+        $previousPregnancy->labour = $request->input('labour');
+        $previousPregnancy->age_if_alive = $request->input('age_if_alive');
+        $previousPregnancy->age_if_dead = $request->input('age_if_dead');
+        $previousPregnancy->cause_of_death = $request->input('cause_of_death');
+
+        if($previousPregnancy->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Previous Pregnancy has been updated'
+            ]);
+        }
     }
 
     /**
@@ -78,8 +117,15 @@ class PreviousPregnancyController extends Controller
      * @param  \App\PreviousPregnancy  $previousPregnancy
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PreviousPregnancy $previousPregnancy)
+    public function destroy(DelRequest $request)
     {
-        //
+        $previousPregnancy = PreviousPregnancy::findOrFail($request->input('id'));
+        
+        if($previousPregnancy->delete()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Previous Pregnancy has been deleted'
+            ]);
+        }
     }
 }

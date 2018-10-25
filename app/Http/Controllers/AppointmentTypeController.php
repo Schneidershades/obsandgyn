@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\AppointmentType;
+use App\Http\Requests\AppointmentType\NewRequest;
+use App\Http\Requests\AppointmentType\UpdateRequest;
+use App\Http\Requests\AppointmentType\DelRequest;
+use App\Http\Resources\AppointmentTypeResource;
 use Illuminate\Http\Request;
 
 class AppointmentTypeController extends Controller
@@ -14,7 +18,9 @@ class AppointmentTypeController extends Controller
      */
     public function index()
     {
-        //
+        $appointmentTypes = AppointmentType::paginate();
+
+        return AppointmentTypeResources::collection($appointmentTypes);
     }
 
     /**

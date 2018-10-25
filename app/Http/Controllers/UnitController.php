@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Unit;
+use App\Http\Requests\Unit\NewRequest;
+use App\Http\Requests\Unit\UpdateRequest;
+use App\Http\Requests\Unit\DelRequest;
+use App\Http\Resources\UnitResource;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller
@@ -14,7 +18,9 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        $units = Unit::paginate();
+
+        return UnitResource::collection($units);
     }
 
     /**
@@ -33,9 +39,18 @@ class UnitController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $unit = new Unit();
+
+        $unit->name = $request->input('name');
+
+        if($unit->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Unit has been added'
+            ]);
+        }
     }
 
     /**
@@ -44,9 +59,11 @@ class UnitController extends Controller
      * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function show(Unit $unit)
+    public function show($id)
     {
-        //
+        $unit = Unit::findOrFail($id); 
+
+        return new UnitResource($unit);
     }
 
     /**
@@ -67,9 +84,18 @@ class UnitController extends Controller
      * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Unit $unit)
+    public function update(UpdateRequest $request)
     {
-        //
+        $unit = Unit::findOrFail($request->input('id'));
+
+        $unit->name = $request->input('name');
+
+        if($unit->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Unit has been updated'
+            ]);
+        }
     }
 
     /**
@@ -80,6 +106,13 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        //
+        $unit = Unit::findOrFail($request->input('id'));
+
+        if($unit->delete()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Unit has been deleted'
+            ]);
+        }
     }
 }

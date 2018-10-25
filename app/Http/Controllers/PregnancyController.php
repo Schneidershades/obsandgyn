@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Pregnancy;
+use App\Patient;
+use App\Http\Requests\Pregnancy\NewRequest;
+use App\Http\Requests\Pregnancy\UpdateRequest;
+use App\Http\Requests\Pregnancy\DelRequest;
+use App\Http\Resources\PregnancyResource;
 use Illuminate\Http\Request;
 
 class PregnancyController extends Controller
@@ -12,9 +17,11 @@ class PregnancyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($patient_id)
     {
-        //
+        $patient = Patient::findOrFail($patient_id);
+
+        return PregnancyResource::collection($patient->pregnancies);
     }
 
     /**
@@ -33,9 +40,22 @@ class PregnancyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $pregnancy = new Pregnancy();
+
+        $pregnancy->patient_id = $request->input('patient_id');
+        $pregnancy->last_period_date = $request->input('last_period_date');
+        $pregnancy->delivery_date = $request->input('delivery_date');
+        $pregnancy->pregnancy_status_id = $request->input('pregnancy_status_id');
+        $pregnancy->notes = $request->input('notes');
+
+        if($pregnancy->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Pregnancy has been added'
+            ]);
+        }
     }
 
     /**
@@ -44,9 +64,11 @@ class PregnancyController extends Controller
      * @param  \App\Pregnancy  $pregnancy
      * @return \Illuminate\Http\Response
      */
-    public function show(Pregnancy $pregnancy)
+    public function show($id)
     {
-        //
+        $pregnancy = Pregnancy::findOrFail('id');
+        
+        return new PregnancyResource($pregnancy);
     }
 
     /**
@@ -67,9 +89,21 @@ class PregnancyController extends Controller
      * @param  \App\Pregnancy  $pregnancy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pregnancy $pregnancy)
+    public function update(UpdateRequest $request)
     {
-        //
+        $pregnancy = Pregnancy::findOrFail($request->input('id'));
+
+        $pregnancy->last_period_date = $request->input('last_period_date');
+        $pregnancy->delivery_date = $request->input('delivery_date');
+        $pregnancy->pregnancy_status_id = $request->input('pregnancy_status_id');
+        $pregnancy->notes = $request->input('notes');
+
+        if($pregnancy->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Pregnancy has been updated'
+            ]);
+        }
     }
 
     /**
@@ -80,6 +114,13 @@ class PregnancyController extends Controller
      */
     public function destroy(Pregnancy $pregnancy)
     {
-        //
+        $pregnancy = Pregnancy::findOrFail($request->input('id'));
+        
+        if($pregnancy->delete()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Pregnancy has been deleted'
+            ]);
+        }
     }
 }

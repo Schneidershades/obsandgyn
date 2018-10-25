@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Role;
+use App\Http\Requests\Role\NewRequest;
+use App\Http\Requests\Role\UpdateRequest;
+use App\Http\Requests\Role\DelRequest;
+use App\Http\Resources\RoleResource;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -14,7 +18,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::paginate();
+
+        return RoleResource::collection($roles);
     }
 
     /**

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Visit;
+use App\Pregnancy;
+use App\Http\Requests\Visit\NewRequest;
+use App\Http\Requests\Visit\UpdateRequest;
+use App\Http\Requests\Visit\DelRequest;
+use App\Http\Resources\VisitResource;
 use Illuminate\Http\Request;
 
 class VisitController extends Controller
@@ -12,9 +17,11 @@ class VisitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($pregnancy_id)
     {
-        //
+        $pregnancy = Pregnancy::findOrFail($pregnancy_id);
+
+        return VisitResource::collection($pregnancy->visits);
     }
 
     /**
@@ -33,9 +40,25 @@ class VisitController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $visit = new Visit();
+
+        $visit->pregnancy_id = $request->input('pregnancy_id');
+        $visit->start_date = $request->input('start_date');
+        $visit->end_date = $request->input('end_date');
+        $visit->diagnosis = $request->input('diagnosis');
+        $visit->examiner = $request->input('examiner');
+        $visit->visit_type_id = $request->input('visit_type_id');
+        $visit->visit_status_id = $request->input('visit_status_id');
+
+        if($visit->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Visit has been added'
+            ]);
+        }
+
     }
 
     /**
@@ -44,9 +67,11 @@ class VisitController extends Controller
      * @param  \App\Visit  $visit
      * @return \Illuminate\Http\Response
      */
-    public function show(Visit $visit)
+    public function show($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+
+        return new VisitResource($visit);
     }
 
     /**
@@ -67,9 +92,22 @@ class VisitController extends Controller
      * @param  \App\Visit  $visit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Visit $visit)
+    public function update(UpdateRequest $request)
     {
-        //
+        $visit = Visit::findOrFail($request->input('id'));
+
+        $visit->end_date = $request->input('end_date');
+        $visit->diagnosis = $request->input('diagnosis');
+        $visit->examiner = $request->input('examiner');
+        $visit->visit_type_id = $request->input('visit_type_id');
+        $visit->visit_status_id = $request->input('visit_status_id');
+
+        if($visit->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Visit has been updated'
+            ]);
+        }
     }
 
     /**
@@ -78,8 +116,15 @@ class VisitController extends Controller
      * @param  \App\Visit  $visit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Visit $visit)
+    public function destroy(DelRequest $request)
     {
-        //
+        $visit = Visit::findOrFail($request->input('id'));
+        
+        if($visit->delete()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Visit has been deleted'
+            ]);
+        }
     }
 }

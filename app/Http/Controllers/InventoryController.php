@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Inventory;
+use App\Http\Requests\Inventory\NewRequest;
+use App\Http\Requests\Inventory\UpdateRequest;
+use App\Http\Requests\Inventory\DelRequest;
+use App\Http\Resources\InventoryResource;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -14,7 +18,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        $inventories = Inventory::paginate();
+
+        return InventoryResource::collection($inventories);
     }
 
     /**
@@ -33,9 +39,23 @@ class InventoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $inventory = new Inventory();
+
+        $inventory->name = $request->input('name');
+        $inventory->inventoryTypeId = $request->input('inventory_type_id');
+        $inventory->quantity = $request->input('quantity');
+        $inventory->unit_id = $request->input('unit_id');
+        $inventory->price = $request->input('price');
+        $inventory->expiration = $request->input('expiration');
+
+        if($inventory->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Item added successfully'
+            ]);
+        }
     }
 
     /**
@@ -44,9 +64,11 @@ class InventoryController extends Controller
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function show(Inventory $inventory)
+    public function show($id)
     {
-        //
+        $inventory = Inventory::findOrFail($id);
+
+        return new InventoryResource($inventory);
     }
 
     /**
@@ -67,9 +89,23 @@ class InventoryController extends Controller
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inventory $inventory)
+    public function update(UpdateRequest $request)
     {
-        //
+        $inventory = Inventory::findOrFail($request->input('id'));
+
+        $inventory->name = $request->input('name');
+        $inventory->inventoryTypeId = $request->input('inventory_type_id');
+        $inventory->quantity = $request->input('quantity');
+        $inventory->unit_id = $request->input('unit_id');
+        $inventory->price = $request->input('price');
+        $inventory->expiration = $request->input('expiration');
+
+        if($inventory->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Item updated successfully'
+            ]);
+        }
     }
 
     /**
@@ -78,8 +114,15 @@ class InventoryController extends Controller
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy(DelRequest $request)
     {
-        //
+        $inventory = Inventory::findOrFail($request->input('id'));
+        
+        if($inventory->delete()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Item deleted successfully'
+            ]);
+        }
     }
 }

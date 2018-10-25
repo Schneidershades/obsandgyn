@@ -3,7 +3,7 @@
 */
 import { CONFIG } from '../config.js';
 
-export default {
+export default { 
     /**
      * display all resources
      * GET /api/v1/patients

@@ -40,7 +40,7 @@ export default {
             eod: eod,
             gravida: gravida
         });
-    },
+    }, 
 
     /**
      * update resource

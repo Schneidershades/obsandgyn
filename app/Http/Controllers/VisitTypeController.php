@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\VisitType;
+use App\Http\Requests\VisitType\NewRequest;
+use App\Http\Requests\VisitType\UpdateRequest;
+use App\Http\Requests\VisitType\DelRequest;
+use App\Http\Resources\VisitTypeResource;
 use Illuminate\Http\Request;
 
 class VisitTypeController extends Controller
@@ -14,7 +18,9 @@ class VisitTypeController extends Controller
      */
     public function index()
     {
-        //
+        $visitTypes = VisitType::paginate();
+
+        return VisitTypeResource::collection($visitTypes);
     }
 
     /**

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\AnesthesiologyType;
+use App\Http\Requests\AnesthesiologyType\NewRequest;
+use App\Http\Requests\AnesthesiologyType\UpdateRequest;
+use App\Http\Requests\AnesthesiologyType\DelRequest;
+use App\Http\Resources\AnesthesiologyTypeResource;
 use Illuminate\Http\Request;
 
 class AnesthesiologyTypeController extends Controller
@@ -14,7 +18,9 @@ class AnesthesiologyTypeController extends Controller
      */
     public function index()
     {
-        //
+        $anesthesiologyTypes = AnesthesiologyType::paginate(100);
+
+        return AnesthesiologyTypeResources::collection($anesthesiologyTypes);
     }
 
     /**
@@ -24,7 +30,7 @@ class AnesthesiologyTypeController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -33,9 +39,18 @@ class AnesthesiologyTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewRequest $request)
     {
-        //
+        $anesthesiologyType = new AnesthesiologyType();
+
+        $anesthesiologyType->name = $request->input('name');
+
+        if($anesthesiologyType->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Anesthesiology Type added successfully'
+            ]);
+        }
     }
 
     /**
@@ -44,9 +59,11 @@ class AnesthesiologyTypeController extends Controller
      * @param  \App\AnesthesiologyType  $anesthesiologyType
      * @return \Illuminate\Http\Response
      */
-    public function show(AnesthesiologyType $anesthesiologyType)
+    public function show($id)
     {
-        //
+        $anesthesiologyType = AnesthesiologyType::findOrFail($id);
+
+        return new AnesthesiologyTypeResource($anesthesiologyType);
     }
 
     /**
@@ -67,9 +84,18 @@ class AnesthesiologyTypeController extends Controller
      * @param  \App\AnesthesiologyType  $anesthesiologyType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AnesthesiologyType $anesthesiologyType)
+    public function update(UpdateRequest $request)
     {
-        //
+        $anesthesiologyType = AnesthesiologyType::findOrFail($request->input(id));
+
+        $anesthesiologyType->name = $anesthesiologyType->input('name');
+
+        if($anesthesiologyType->save()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Anesthesiology Type updated successfully'
+            ]);
+        }
     }
 
     /**
@@ -78,8 +104,15 @@ class AnesthesiologyTypeController extends Controller
      * @param  \App\AnesthesiologyType  $anesthesiologyType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnesthesiologyType $anesthesiologyType)
+    public function destroy(DelRequest $anesthesiologyType)
     {
-        //
+        $anesthesiologyType = AnesthesiologyType::findOrFail($request->input(id));
+
+        if($anesthesiologyType->delete()) {
+            return response()->json([
+                'success' => 1,
+                'message' => 'Anesthesiology Type deleted successfully'
+            ]);
+        }
     }
 }

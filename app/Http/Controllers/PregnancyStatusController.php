@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\PregnancyStatus;
+use App\Http\Requests\PregnancyStatus\NewRequest;
+use App\Http\Requests\PregnancyStatus\UpdateRequest;
+use App\Http\Requests\PregnancyStatus\DelRequest;
+use App\Http\Resources\PregnancyStatusResource;
 use Illuminate\Http\Request;
 
 class PregnancyStatusController extends Controller
@@ -14,7 +18,9 @@ class PregnancyStatusController extends Controller
      */
     public function index()
     {
-        //
+        $pregnancyStatuses = PregnancyStatus::paginate();
+
+        return PregnancyStatusResource::collection($pregnancyStatuses);
     }
 
     /**
