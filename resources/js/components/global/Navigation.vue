@@ -5,12 +5,20 @@
     <!-- Top navbar -->
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
+
+        <!-- Router Back Button -->
+        <router-link class="btn btn-white"
+            v-if="$routerHistory.hasPrevious()"
+            :to="{ path: $routerHistory.previous().path }">
+            <i class="fa fa-arrow-left"></i>
+        </router-link>
+
         <!-- Brand -->
         <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#">
           {{ $route.name }}
         </a>
         <!-- Form -->
-        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+        <!--<form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
           <div class="form-group mb-0">
             <div class="input-group input-group-alternative">
               <div class="input-group-prepend">
@@ -19,17 +27,17 @@
               <input class="form-control" placeholder="Search" type="text">
             </div>
           </div>
-        </form>
+        </form>-->
         <!-- User -->
         <ul class="navbar-nav align-items-center d-none d-md-flex">
-          <li class="nav-item dropdown">
+          <li v-if="userLoadStatus == 2 && user != {}" class="nav-item dropdown">
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
                   <!-- <img alt="Image placeholder" src="#">-->
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">Faruk Nasir</span>
+                  <span class="mb-0 text-sm font-weight-bold">Faruk Nasir</span>
                 </div>
               </div>
             </a>
@@ -54,18 +62,51 @@
                 <span>Support</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="#!" class="dropdown-item">
+              <a class="dropdown-item" :href="config.URL+'/logout'" 
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
                 <i class="ni ni-user-run"></i>
                 <span>Logout</span>
+                <form id="logout-form" :action="config.URL+'/logout'" 
+                    method="POST" style="display: none;">
+                    <input type="hidden" name="_token" id="csrf-token" :value="csrf_token" />
+                </form>
               </a>
             </div>
+          </li>
+          <li v-else class="nav-item">
+            <a class="nav-link" href="/login">
+              <i class="ni ni-key-25 text-info"></i> Login
+            </a>
           </li>
         </ul>
       </div>
     </nav>
 </template>
 <script>
+    import { CONFIG } from '../../config.js';
+
     export default {
-        
+        data() {
+          return {
+            config: CONFIG,
+            csrf_token: $('meta[name="csrf-token"]').attr('content')
+          };
+        },
+        computed: {
+          user() {
+              return this.$store.getters.getUser;
+          },
+          userLoadStatus() {
+              return this.$store.getters.getUserLoadStatus;
+          }
+        },
+        watch: {
+          
+        },
+        mounted() {},
+        created() {
+          this.$store.dispatch('getAuthUser');
+        }
     }
 </script>

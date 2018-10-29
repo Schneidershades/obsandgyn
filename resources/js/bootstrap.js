@@ -1,6 +1,7 @@
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
+window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -13,6 +14,7 @@ try {
     //require('bootstrap');
 
     require('../../template/argon-dashboard-v1.0.0/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js');
+    require('../../template/argon-dashboard-v1.0.0/assets/js/plugins/bootstrap-notify.js');
     require('../../template/argon-dashboard-v1.0.0/assets/js/argon.min.js');
 } catch (e) {}
 

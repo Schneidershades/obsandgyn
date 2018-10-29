@@ -156,11 +156,27 @@ export default new VueRouter({
                             )
                         },
                         {
-                            path: ':patientId',
+                            path: 'view/:patientId',
                             name: 'View Patient',
                             component: Vue.component(
                                 'ViewPatient', 
                                 require('./components/patient/View.vue')
+                            )
+                        },
+                        {
+                            path: 'add',
+                            name: 'New Patient',
+                            component: Vue.component(
+                                'AddPatient',
+                                require('./components/patient/Add.vue')
+                            )
+                        },
+                        {
+                            path: 'edit/:editId',
+                            name: 'Edit Patient',
+                            component: Vue.component(
+                                'EditPatient',
+                                require('./components/patient/Edit.vue')
                             )
                         }
                     ]

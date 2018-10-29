@@ -15,6 +15,15 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
         /**
+         * Patient Routes
+         */
+        Route::get('/patients', 'PatientController@index');
+        Route::get('/patient/{id}', 'PatientController@show');
+        Route::post('/patient', 'PatientController@store');
+        Route::put('/patient', 'PatientController@update');
+        Route::delete('/patient', 'PatientController@destroy');
+
+        /**
          * User Routes
          */
         Route::get('/user', 'UserController@authenticatedUser');

@@ -16,5 +16,15 @@ export const HELPERS = {
                 align: align
             }
         });
+    },
+    initClassicEditor: function(element_id) {
+        ClassicEditor
+            .create( document.querySelector( element_id ) )
+            .then( editor => {
+                return editor;
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
     }
 };
