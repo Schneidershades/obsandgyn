@@ -5,7 +5,7 @@
 export const HELPERS = {
     showNotification: function(from, align, message, type) {
         $.notify({
-            icon: "add_alert",
+            icon: "",
             message: message
     
         },{

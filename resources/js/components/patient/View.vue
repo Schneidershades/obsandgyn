@@ -16,12 +16,16 @@
                             <div>
                                 <p>
                                     <span class="heading">Name: </span><br />
-                                    <span class="description">Asiya Abdullahi</span>
+                                    <span class="description">{{ patient.name }}</span>
                                 </p>
                             </div>
                             <div>
                                 <span class="heading">Age: </span><br />
-                                <span class="description">24 Years</span>
+                                <span class="description">
+                                    {{
+                                        moment([1994, 3, 23]).fromNow().replace('ago', '')
+                                    }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -119,7 +123,48 @@
     </div>
 </template>
 <script>
-export default {
-    
-}
+    import { HELPERS } from '../../helpers.js';
+    import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
+
+    export default {
+        components: {
+            ClipLoader
+        },
+        data() {
+            return {
+                HF: HELPERS,
+                moment: window.moment
+            };
+        },
+        computed: {
+            user() {
+                return this.$store.getters.getUser;
+            },
+            userLoadStatus() {
+                return this.$store.getters.getUserLoadStatus;
+            },
+            patient() {
+                return this.$store.getters.getPatient;
+            },
+            patientLoadStatus() {
+                return this.$store.getters.getPatientLoadStatus;
+            }
+        },
+        watch: {
+
+        },
+        mounted() {
+
+        },
+        created() {
+            this.$store.dispatch('getAuthUser');
+
+            this.$store.dispatch('loadPatient', {
+                id: this.$route.params.patientId
+            });
+        },
+        methods: {
+
+        }
+    }
 </script>

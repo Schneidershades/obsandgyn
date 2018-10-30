@@ -89,7 +89,7 @@
                                     Submit
                                 </button>
                                 <clip-loader class="text-left" :loading='addPatientLoadStatus == 1' 
-                                    :color="'#4caf50'"></clip-loader>
+                                    :color="'#5e72e4'"></clip-loader>
                             </form>
                             <div v-show="!show_form" class="alert alert-success" role="alert">
                                 {{ addPatientResult.message }}
@@ -138,6 +138,10 @@
                         text: ''
                     },
                     birth_date: {
+                        is_valid: true,
+                        text: ''
+                    },
+                    tribe: {
                         is_valid: true,
                         text: ''
                     },
@@ -213,6 +217,7 @@
                 this.patient.address = '';
                 this.patient.religion = '';
                 this.patient.birth_date = '';
+                this.patient.tribe = '';
                 this.patient.husband_occupation = '';
 
                 this.validations = {
@@ -229,6 +234,10 @@
                         text: ''
                     },
                     birth_date: {
+                        is_valid: true,
+                        text: ''
+                    },
+                    tribe: {
                         is_valid: true,
                         text: ''
                     },

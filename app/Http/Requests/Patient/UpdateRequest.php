@@ -24,8 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required',
-            'name' => 'required'
+            'id' => 'required'
         ];
     }
     /**
@@ -36,8 +35,7 @@ class UpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.required' => 'id is required',
-            'name.required' => 'name is required'
+            'id.required' => 'id is required'
         ];
     }
 }

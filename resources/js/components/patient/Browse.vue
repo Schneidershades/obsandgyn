@@ -35,7 +35,7 @@
                             </ul>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div v-if="patientsLoadStatus == 2" class="table-responsive">
                                 <table class="table align-items-center table-striped">
                                     <thead class="thead-light">
                                         <tr>
@@ -80,7 +80,9 @@
                                                         <router-link class="dropdown-item" :to="'/patient/edit/'+patient.id">
                                                             Edit
                                                         </router-link>
-                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                        <a @click="deletePatient(patient.id)" class="dropdown-item" href="#">
+                                                            Delete
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -93,7 +95,27 @@
                                         showing {{ pagination.to }} of {{ pagination.total }} patients
                                     </li>
                                 </ul>
+
+                                <div id="pagination-btn">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-end text-black">
+                                            <li class="page-item" v-bind:class="[{disabled: !pagination.prev_page_url}]">
+                                                <a @click="getPatients(pagination.prev_page_url)" class="page-link" tabindex="-1">
+                                                    <i class="fa fa-arrow-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item" v-bind:class="[{disabled: !pagination.next_page_url}]">
+                                                <a @click="getPatients(pagination.next_page_url)" class="page-link">
+                                                    <i class="fa fa-arrow-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
+
+                            <clip-loader v-else class="text-left" :loading="true" 
+                                    :color="'#5e72e4'"></clip-loader>
                         </div>
                     </div>
 
@@ -137,10 +159,39 @@
             },
             pagination() {
                 return this.$store.getters.getPatientPagination;
+            },
+            deletePatientLoadStatus() {
+                return this.$store.getters.getDeletePatientLoadStatus;
+            },
+            deletePatientResult() {
+                return this.$store.getters.getDeletePatientResult;
             }
         },
         watch: {
-            
+            deletePatientLoadStatus: function() {
+                let vm = this;
+                
+                if(vm.deletePatientLoadStatus == 3 && vm.deletePatientResult.success == 0) {
+                    vm.HF.showNotification(
+                        'top', 
+                        'center', 
+                        vm.deletePatientResult.message, 
+                        'danger'
+                    );
+                } else if(vm.deletePatientLoadStatus == 2 && vm.deletePatientResult.success == 1) {
+                    //reload patients
+                    this.$store.dispatch('loadPatients', {
+                        url: null
+                    });
+                    
+                    vm.HF.showNotification(
+                        'top', 
+                        'center', 
+                        vm.deletePatientResult.message, 
+                        'success'
+                    );
+                } 
+            }
         },
         mounted() {
 
@@ -150,6 +201,20 @@
             this.$store.dispatch('loadPatients', {
                 url: null
             });
+        },
+        methods: {
+            getPatients: function(url) {
+                this.$store.dispatch('loadPatients', {
+                    url: url
+                });
+            },
+            deletePatient(data) {
+                if(confirm("are you sure?")){
+                    this.$store.dispatch('deletePatient', {
+                        id: data
+                    });
+                }
+            }
         }
     }
 </script>

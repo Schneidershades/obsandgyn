@@ -18,7 +18,7 @@ export default {
      * GET /api/v1/patient/{id}
      */
     getPatient: function(id) {
-        url = CONFIG.API_URL + "/patient/" + id;
+        let url = CONFIG.API_URL + "/patient/" + id;
         return axios.get(url);
     },
 

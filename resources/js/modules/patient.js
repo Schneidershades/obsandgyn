@@ -43,7 +43,7 @@ export const patient = {
         loadPatient({commit}, data) {
             commit('setPatientLoadStatus', 1);
 
-            PatientAPI.getPatient(
+            PatientAPI.getPatient( 
                 data.id
             ).then(function(response) {
                 commit('setPatientLoadStatus', 2);
