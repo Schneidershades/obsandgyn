@@ -21,15 +21,19 @@
                             <ul class="list-inline">
                                 <li class="list-inline-item col-md-4">
                                     <form action="">
-                                        <div class="input-group">
+                                        <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fa fa-search"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control form-control-success" 
+                                            <input v-model="search_query" type="text" 
+                                            class="form-control form-control-success" 
                                                 placeholder="Search Patients">
                                         </div>
+                                        <button @click="searchPatients(search_query)" class="btn btn-primary">
+                                            Search
+                                        </button>
                                     </form>
                                 </li>
                             </ul>
@@ -141,7 +145,7 @@
         },
         data() {
             return {
-
+                search_query: ''
             };
         },
         computed: {
@@ -207,6 +211,13 @@
                 this.$store.dispatch('loadPatients', {
                     url: url
                 });
+            },
+            searchPatients: function(query) {
+                if(query) {
+                    this.$store.dispatch('searchPatients', {
+                        query: query
+                    });
+                }
             },
             deletePatient(data) {
                 if(confirm("are you sure?")){

@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <img src="https://www.burnetts.co.uk/assets/img/no-profile.png" 
-                            alt="" width="300">
+                                alt="" width="300">
                         </div>
                         <div class="col-md-8 my-auto text-white">
                             <div>
@@ -66,22 +66,22 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-pregnancies-tab" 
-                                        data-toggle="tab" href="#tabs-pregnancies" role="tab" 
-                                        aria-controls="tabs-pregnancies" aria-selected="false">
+                                            data-toggle="tab" href="#tabs-pregnancies" role="tab" 
+                                            aria-controls="tabs-pregnancies" aria-selected="false">
                                         <i class="ni ni-bell-55 mr-2"></i> Pregnancies
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-appointments-tab" 
-                                        data-toggle="tab" href="#tabs-appointments" role="tab" 
-                                        aria-controls="tabs-appointments" aria-selected="false">
+                                            data-toggle="tab" href="#tabs-appointments" role="tab" 
+                                            aria-controls="tabs-appointments" aria-selected="false">
                                         <i class="ni ni-bell-55 mr-2"></i> Appointments
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-visits-tab" 
-                                        data-toggle="tab" href="#tabs-icons-visits" role="tab" 
-                                        aria-controls="tabs-icons-visits" aria-selected="false">
+                                            data-toggle="tab" href="#tabs-icons-visits" role="tab" 
+                                            aria-controls="tabs-icons-visits" aria-selected="false">
                                         <i class="ni ni-calendar-grid-58 mr-2"></i> Visits
                                         </a>
                                     </li>
@@ -91,16 +91,16 @@
                         <div class="card-body">
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="tabs-general" 
-                                role="tabpanel" aria-labelledby="tabs-icons-tabs-general">
-                                    General
+                                    role="tabpanel" aria-labelledby="tabs-icons-tabs-general">
+                                    <general-information v-bind:patient="patient"></general-information>
                                 </div>
                                 <div class="tab-pane fade" id="tabs-icons-medical-history" 
                                 role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
-                                    Medical History
+                                    <medical-history></medical-history>
                                 </div>
                                 <div class="tab-pane fade" id="tabs-icons-prev-pregnancies" 
                                 role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
-                                    Previous Pregnancies
+                                    <previous-pregnancy></previous-pregnancy>
                                 </div>
                                 <div class="tab-pane fade" id="tabs-pregnancies" 
                                 role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
@@ -125,10 +125,16 @@
 <script>
     import { HELPERS } from '../../helpers.js';
     import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
+    import GeneralInformation from '../../components/patient/GeneralInformation.vue';
+    import MedicalHistory from '../../components/patient/MedicalHistory.vue';
+    import PreviousPregnancy from '../../components/patient/PreviousPregnancy.vue';
 
     export default {
         components: {
-            ClipLoader
+            ClipLoader,
+            GeneralInformation,
+            MedicalHistory,
+            PreviousPregnancy
         },
         data() {
             return {

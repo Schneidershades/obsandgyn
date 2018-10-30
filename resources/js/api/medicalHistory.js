@@ -23,6 +23,14 @@ export default {
     },
 
     /**
+     * 
+     */
+    searchMedicalHistories: function(query) {
+        url = CONFIG.API_URL + "/medicalHistory/search/" + query;
+        return axios.get(url);
+    },
+
+    /**
      * add resource
      * POST /api/v1/medicalHistory
      */

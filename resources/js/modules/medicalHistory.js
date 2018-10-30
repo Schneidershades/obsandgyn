@@ -53,6 +53,23 @@ export const medicalHistory = {
                 commit('setMedicalHistory', {});
             });
         },
+        searchMedicalHistories({commit}, data) {
+            commit('setMedicalHistoriesLoadStatus', 1);
+
+            MedicalHistoryAPI.searchMedicalHistories(
+                data.query
+            ).then(function(response) {
+                commit('setMedicalHistoriesLoadStatus', 2);
+                commit('setMedicalHistory', response.data.data);
+                commit('setMhPagination', {
+                    meta: response.data.meta,
+                    links: response.data.links
+                });
+            }).catch(function() {
+                commit('setMedicalHistoriesLoadStatus', 3);
+                commit('setMedicalHistory', {});
+            });
+        },
         newMedicalHistory({commit}, data) {
             commit('setAddMedicalHistoryLoadStatus', 1);
 

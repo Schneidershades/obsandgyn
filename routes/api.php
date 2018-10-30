@@ -19,6 +19,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
          */
         Route::get('/patients', 'PatientController@index');
         Route::get('/patient/{id}', 'PatientController@show');
+        Route::get('/patient/search/{query}', 'PatientController@search');
         Route::post('/patient', 'PatientController@store');
         Route::put('/patient', 'PatientController@update');
         Route::delete('/patient', 'PatientController@destroy');

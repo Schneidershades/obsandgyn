@@ -71,6 +71,12 @@ class PatientController extends Controller
         return new PatientResource($patient);
     }
 
+    public function search($query) {
+        $patients = Patient::search($query)->paginate();
+
+        return PatientResource::collection($patients);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

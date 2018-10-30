@@ -54,6 +54,24 @@ export const patient = {
             });
         },
 
+        searchPatients({commit}, data) {
+            commit('setPatientsLoadStatus', 1);
+
+            PatientAPI.searchPatients(
+                data.query
+            ).then(function(response) {
+                commit('setPatientsLoadStatus', 2);
+                commit('setPatients', response.data.data);
+                commit('setPatientPagination', {
+                    meta: response.data.meta,
+                    links: response.data.links
+                });
+            }).catch(function() {
+                commit('setPatientsLoadStatus', 3);
+                commit('setPatients', {});
+            });
+        },
+
         newPatient({commit}, data) {
             commit('setAddPatientLoadStatus', 1);
 

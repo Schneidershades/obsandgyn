@@ -23,6 +23,15 @@ export default {
     },
 
     /**
+     * search for resources
+     * GET /api/v1/patient/search/{query}
+     */
+    searchPatients: function(query) {
+        let url = CONFIG.API_URL + "/patient/search/" + query;
+        return axios.get(url);
+    },
+
+    /**
      * add resource
      * POST /api/v1/patient
      */
